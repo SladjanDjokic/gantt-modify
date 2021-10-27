@@ -42,12 +42,14 @@
 				const end_date = task._end.toLocaleDateString();
 				const timeA = new Date() - task._start;
 				const timeB = (task._end - task._start) * task.progress / 100;
+				const timeC = new Date(task._start) - new Date(1970, 0, 1) + timeA * 100 / task.progress;
+				const estDate = new Date(timeC).toLocaleDateString();
 
 				return `
 					<div class="details-container">
 						<h4 class="title text-white">${task.name}</h4>
 						<h4>Assignable Users: ${task.assignableUsers ? task.assignableUsers.map((user) => ` ${user}`) : 'No available'}</h4>
-						<p>Expected to finish by ${task.ETADate}</p>
+						<p>Expected to finish by ${estDate}</p>
 						<p>Start Day: ${start_date}</p>
 						<p>End Day: ${end_date}</p>
 						<p>Status: ${task.cancelled ? 'Cancelled' : task.progress === 100 ? 'Completed': timeA > timeB ? 'Late' : 'Ontime'}</p>
